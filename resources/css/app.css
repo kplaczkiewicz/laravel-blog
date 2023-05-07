@@ -5,3 +5,7 @@
 .container {
     @apply mx-auto px-6;
 }
+
+.header-scroll {
+    @apply border-b border-b-gray-300 shadow-lg;
+}

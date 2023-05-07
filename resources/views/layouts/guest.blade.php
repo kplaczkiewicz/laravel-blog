@@ -1,7 +1,7 @@
-@include('layouts.header')
+@include('partials._header')
 
-<main>
-    <div class="py-20 flex flex-col sm:justify-center items-center bg-gray-100">
+<main class="flex-1 bg-gray-100">
+    <div class="py-20 flex flex-col sm:justify-center items-center">
         <a href="/" class="block">
             <x-application-logo class="text-[5rem] text-primary" />
         </a>
@@ -12,4 +12,4 @@
     </div>
 </main>
 
-@include('layouts.footer')
+@include('partials._footer')

@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Homepage
-Route::get('/', function () {
-    return view('home');
-});
 
 // Dashboard
 Route::get('/dashboard', function () {
@@ -33,4 +30,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Posts
+// Homepage
+Route::get('/', [PostController::class, 'index']);
+
+// Single post
+Route::get('/posts/{post}', [PostController::class, 'show']);

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
     <div class="container py-12">
         <x-page-header>
             Dashboard
@@ -25,4 +23,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-app-layout>

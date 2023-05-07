@@ -1,8 +1,8 @@
-@include('layouts.header')
-@include('layouts.navigation')
+@include('partials._header')
+@include('partials._navigation')
 
-<main>
-    @yield('content')
+<main class="flex-1">
+    {{ $slot }}
 </main>
 
-@include('layouts.footer')
+@include('partials._footer')

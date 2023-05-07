@@ -17,6 +17,8 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
+            'category' => $this->faker->randomElement(['laravel', 'frontend', 'backend', 'vue']),
+            'tags' => implode(',', $this->faker->randomElements(['laravel', 'frontend', 'backend', 'vue', 'react', 'intertia', 'api'], 3)),
             'image_url' => $this->faker->image(),
             'title' => $this->faker->sentence(),
             'intro_text' => $this->faker->paragraphs(1, true),

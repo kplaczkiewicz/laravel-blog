@@ -4,7 +4,8 @@
         <div class="hero-content text-center text-neutral-content">
             <div class="max-w-md">
                 <h1 class="mb-5 text-4xl font-bold">Welcome to Larablog</h1>
-                <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+                <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
+                    exercitationem
                     quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
 
                 @auth
@@ -25,8 +26,23 @@
             <h1>Latest posts</h1>
         </div>
 
+
         @if (count($posts) > 0)
-            <div class="max-w-6xl mx-auto grid grid-cols-3 py-14 gap-8">
+            @php
+                $allCats = ['laravel', 'frontend', 'backend', 'vue'];
+                $allTags = ['laravel', 'frontend', 'backend', 'vue', 'react', 'intertia', 'api'];
+            @endphp
+
+            <div class="max-w-6xl mx-auto mt-12 ">
+                <x-posts-filter filter_name="Categories" :filter_elements="$allCats" class="border-b border-b-primary mb-4 pb-4"/>
+                <x-posts-filter filter_name="Tags" :filter_elements="$allTags"/>
+
+                <div class="flex justify-end mt-4">
+                    <a class="btn btn-error" href="/">Remove filters</a>
+                </div>
+            </div>
+
+            <div class="max-w-6xl mx-auto grid grid-cols-3 py-12 gap-8">
                 @foreach ($posts as $post)
                     <x-post-card :post="$post" />
                 @endforeach

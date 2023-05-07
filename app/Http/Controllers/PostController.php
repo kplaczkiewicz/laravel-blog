@@ -9,7 +9,7 @@ class PostController extends Controller {
     // Show all post
     public function index() {
         return view('posts.index', [
-            'posts' => Post::all()
+            'posts' => Post::latest()->filter(request(['tag', 'category']))->get()
         ]);
     }
 

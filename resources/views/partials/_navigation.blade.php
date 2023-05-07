@@ -5,7 +5,13 @@
         </div>
         <div class="flex-none gap-2">
             <div class="form-control">
-                <input type="text" placeholder="Search" class="input input-bordered" />
+                <form class="flex items-center gap-1" action="/">
+                    <input type="hidden" name="tag" value="{{ app('request')->tag }}">
+                    <input type="hidden" name="category" value="{{ app('request')->category }}">
+
+                    <input type="text" placeholder="Search" class="input input-bordered" name="search" />
+                    <button type="submit" class="btn btn-square"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
             </div>
 
             @auth

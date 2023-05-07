@@ -1,7 +1,7 @@
 @include('partials._header')
 @include('partials._navigation')
 
-<main class="flex-1">
+<main {{ $attributes->merge(['class' => 'flex-1']) }}>
     {{ $slot }}
 </main>
 

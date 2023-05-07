@@ -9,13 +9,16 @@
                     quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
 
                 @auth
-                    <a class="btn btn-info" href="post/create">
+                    <a class="btn btn-info" href="{{ route('posts.create') }}">
                         Add a post
                     </a>
                 @else
-                    <a class="btn btn-info" href="{{ route('login') }}">
-                        Join us
+                    <a class="btn btn-info" href="{{ route('posts.create') }}">
+                        Add a post
                     </a>
+                    {{-- <a class="btn btn-info" href="{{ route('login') }}">
+                        Join us
+                    </a> --}}
                 @endauth
             </div>
         </div>

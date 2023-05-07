@@ -33,5 +33,11 @@ require __DIR__.'/auth.php';
 // Homepage
 Route::get('/', [PostController::class, 'index']);
 
+// Show create form
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
+// Store create data
+Route::post('/posts', [PostController::class, 'store']);
+
 // Single post
 Route::get('/posts/{post}', [PostController::class, 'show']);

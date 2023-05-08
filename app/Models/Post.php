@@ -8,7 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model {
     use HasFactory;
 
-    protected $fillable = ["category", "tags", "image_url", "title", "intro_text", "content"];
+    protected $fillable = [
+        "category",
+        "tags",
+        "image_url",
+        "title",
+        "intro_text",
+        "content",
+    ];
+
+    // Tag relation
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
 
     // Filter posts
     public function scopeFilter($query, array $filters) {
@@ -17,8 +29,16 @@ class Post extends Model {
             $query->where(function ($query) use ($filters) {
                 $query
                     ->where("title", "like", "%" . $filters["search"] . "%")
-                    ->orWhere("intro_text", "like", "%" . $filters["search"] . "%")
-                    ->orWhere("content", "like", "%" . $filters["search"] . "%");
+                    ->orWhere(
+                        "intro_text",
+                        "like",
+                        "%" . $filters["search"] . "%"
+                    )
+                    ->orWhere(
+                        "content",
+                        "like",
+                        "%" . $filters["search"] . "%"
+                    );
             });
         }
 
@@ -26,10 +46,8 @@ class Post extends Model {
         if (isset($filters["tag"])) {
             $tags = explode(",", $filters["tag"]);
 
-            $query->where(function ($query) use ($tags) {
-                foreach ($tags as $tag) {
-                    $query->orWhere("tags", "like", "%" . $tag . "%");
-                }
+            $query->whereHas('tags', function ($query) use ($tags) {
+                $query->whereIn('name', $tags);
             });
         }
 

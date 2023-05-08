@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -10,11 +11,18 @@ class PostController extends Controller {
     // Show all post
     public function index() {
         $posts = Post::latest()
-                ->filter(request(["tag", "category", "search"]))
-                ->get();
+            ->filter(request(["tag", "category", "search"]))
+            ->with("tags")
+            ->get();
+
+        // Change eloquent result to array of names
+        $tagNames = array_map(function ($tag) {
+            return $tag["name"];
+        }, Tag::all(["name"])->toArray());
 
         return view("posts.index", [
-            "posts" => $posts
+            "posts" => $posts,
+            "tags" => $tagNames,
         ]);
     }
 
@@ -27,28 +35,49 @@ class PostController extends Controller {
 
     // Show create form
     public function create() {
-        return view("posts.create");
+        $tags = Tag::all();
+
+        return view("posts.create", [
+            "tags" => $tags,
+        ]);
     }
 
-     // Store post data
-     public function store(Request $request) {
+    // Store post data
+    public function store(Request $request) {
         $request->merge([
-            'category' => 'laravel',
-            'tags' => 'laravel, frontend, backend',
-            'image_url' => 'img',
+            "category" => "laravel",
+            "image_url" => "img",
         ]);
 
-        $formFields =$request->validate([
-            'title' => ['required', Rule::unique('posts', 'title')],
-            'intro_text' => 'required',
-            'content' => 'required',
-            'category' => 'required',
-            'tags' => 'required',
-            'image_url' => 'required',
+        // Validate the fields
+        $formFields = $request->validate([
+            "title" => ["required", Rule::unique("posts", "title")],
+            "intro_text" => "required",
+            "content" => "required",
+            "category" => "required",
+            "image_url" => "required",
         ]);
 
-        Post::create($formFields);
+        // Validate the tags
+        $request->validate([
+            "tags" => "required",
+        ]);
 
-        return redirect('/');
+        // Store the tags
+        $tagIds = [];
+
+        // Retrieve or create a tag
+        foreach ($request->tags as $tagName) {
+            $tag = Tag::firstOrCreate(["name" => trim($tagName)]);
+            $tagIds[] = $tag->id;
+        }
+
+        // Create the post
+        $post = Post::create($formFields);
+
+        // Add tags to the post
+        $post->tags()->sync($tagIds);
+
+        return redirect("/");
     }
 }

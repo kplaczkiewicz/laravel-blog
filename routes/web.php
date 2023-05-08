@@ -4,6 +4,7 @@ use App\Http\Controllers\PostController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +34,16 @@ require __DIR__.'/auth.php';
 // Homepage
 Route::get('/', [PostController::class, 'index']);
 
-// Show create form
+// Posts
+// Show create post form
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
-// Store create data
+// Store create post data
 Route::post('/posts', [PostController::class, 'store']);
 
 // Single post
 Route::get('/posts/{post}', [PostController::class, 'show']);
+
+// Tags
+// Store tag data
+Route::post('/tags', [TagController::class, 'store']);

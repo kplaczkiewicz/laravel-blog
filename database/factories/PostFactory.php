@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,21 +22,6 @@ class PostFactory extends Factory {
                 "backend",
                 "vue",
             ]),
-            "tags" => implode(
-                ",",
-                $this->faker->randomElements(
-                    [
-                        "laravel",
-                        "frontend",
-                        "backend",
-                        "vue",
-                        "react",
-                        "intertia",
-                        "api",
-                    ],
-                    3
-                )
-            ),
             "image_url" => $this->faker->image(),
             "title" => $this->faker->sentence(),
             "intro_text" => $this->faker->paragraphs(1, true),

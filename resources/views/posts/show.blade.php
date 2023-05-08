@@ -7,8 +7,8 @@
         <img src="https://picsum.photos/1000/600" alt="" class="mb-10 max-h-[350px] w-full object-cover">
 
         <div class="mb-3">
-            @foreach ($tags as $tag)
-                <div class="badge badge-outline">{{ $tag }}</div>
+            @foreach ($post->tags as $tag)
+                <div class="badge badge-outline">{{ $tag->name }}</div>
             @endforeach
         </div>
 

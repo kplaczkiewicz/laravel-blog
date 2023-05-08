@@ -1,9 +1,5 @@
 @props(['post'])
 
-@php
-    $tags = explode(',', $post->tags);
-@endphp
-
 <div class="card bg-base-100 shadow">
     <figure>
         <img src="https://picsum.photos/500/300?random={{ $post->id }}" alt="placeholder">
@@ -11,8 +7,8 @@
 
     <div class="card-body">
         <div class="mb-2">
-            @foreach ($tags as $tag)
-                <div class="badge badge-outline">{{ $tag }}</div>
+            @foreach ($post->tags as $tag)
+                <div class="badge badge-outline">{{ $tag->name }}</div>
             @endforeach
         </div>
 

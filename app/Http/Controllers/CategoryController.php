@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class TagController extends Controller {
-    // Store tag data
+class CategoryController extends Controller {
+    // Store category data
     public function store(Request $request) {
         // Validate the fields
         $formFields = $request->validate([
-            "name" => ["required", Rule::unique("tags", "name")],
+            "name" => ["required", Rule::unique("categories", "name")],
         ]);
 
-        Tag::create($formFields);
+        Category::create($formFields);
 
         return redirect(route("posts.create"));
     }

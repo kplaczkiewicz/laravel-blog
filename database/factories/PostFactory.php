@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,13 +16,11 @@ class PostFactory extends Factory {
      * @return array<string, mixed>
      */
     public function definition(): array {
+        // Get random category
+        $category = Category::inRandomOrder()->first();
+
         return [
-            "category" => $this->faker->randomElement([
-                "laravel",
-                "frontend",
-                "backend",
-                "vue",
-            ]),
+            'category_id' => $category->id,
             "image_url" => $this->faker->image(),
             "title" => $this->faker->sentence(),
             "intro_text" => $this->faker->paragraphs(1, true),

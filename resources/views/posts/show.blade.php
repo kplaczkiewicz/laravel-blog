@@ -14,16 +14,16 @@
 
         <h1 class="mb-5">{{ $post->title }}</h1>
 
-        <div class="badge badge-lg">{{ $post->category }}</div>
+        <div class="badge badge-lg">{{ $post->category->name }}</div>
 
         <p class="text-lg mb-8">{{ $post->intro_text }}</p>
 
-        <p>
-            {{ $post->content }}
-        </p>
+        <div>
+            {!! $post->content !!}
+        </div>
 
         <div class="text-center">
-            <a class="btn mt-8" href="/">Back to homepage</a>
+            <a class="btn mt-12" href="/">Back to homepage</a>
         </div>
     </div>
 </x-app-layout>

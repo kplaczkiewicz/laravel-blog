@@ -55,3 +55,7 @@ filters.forEach(filter => {
 
     filter.setAttribute('href', '/?' + queryParams.toString());
 });
+
+window.addEventListener('click', (e) => {
+    console.log(e.target)
+})

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 
@@ -47,3 +48,7 @@ Route::get('/posts/{post}', [PostController::class, 'show']);
 // Tags
 // Store tag data
 Route::post('/tags', [TagController::class, 'store']);
+
+// Categories
+// Store category data
+Route::post('/categories', [CategoryController::class, 'store']);

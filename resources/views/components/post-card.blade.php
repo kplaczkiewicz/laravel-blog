@@ -1,6 +1,6 @@
 @props(['post'])
 
-<div class="card bg-base-100 shadow">
+<div class="card bg-base-100 shadow rounded-sm">
     <figure>
         <img src="https://picsum.photos/500/300?random={{ $post->id }}" alt="placeholder">
     </figure>
@@ -14,7 +14,7 @@
 
         <h2 class="card-title">{{ $post->title }}</h2>
 
-        <div class="badge badge-lg mb-2">{{ $post->category }}</div>
+        <div class="badge badge-lg mb-2">{{ $post->category->name }}</div>
 
         <p>{{ Str::limit($post->intro_text, 140) }}</p>
 

@@ -9,13 +9,17 @@ class Post extends Model {
     use HasFactory;
 
     protected $fillable = [
-        "category",
-        "tags",
+        "category_id",
         "image_url",
         "title",
         "intro_text",
         "content",
     ];
+
+    // Category relation
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 
     // Tag relation
     public function tags() {
@@ -54,7 +58,10 @@ class Post extends Model {
         // Filter by category
         if (isset($filters["category"])) {
             $cats = explode(",", $filters["category"]);
-            $query->whereIn("category", $cats);
+
+            $query->whereHas("category", function ($query) use ($cats) {
+                $query->whereIn("name", $cats);
+            });
         }
     }
 }

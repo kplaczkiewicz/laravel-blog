@@ -14,6 +14,10 @@
 
     <script src="https://kit.fontawesome.com/adfc32c097.js" crossorigin="anonymous" defer></script>
 
+    <!-- Include and initialize the WYSIWYG editor -->
+    <script src="https://cdn.tiny.cloud/1/wut93g7rdvf6uu1vi3swijnpjx6dnxm8b9txdkbz2egn6ebk/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

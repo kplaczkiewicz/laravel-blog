@@ -14,3 +14,7 @@ textarea:focus {
     box-shadow: none;
     border-color: hsl(var(--bc) / 0.2);
 }
+
+.tox-tinymce {
+    @apply !rounded-sm;
+}

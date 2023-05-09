@@ -29,12 +29,8 @@
             <h1>Latest posts</h1>
         </div>
 
-        @php
-            $allCats = ['laravel', 'frontend', 'backend', 'vue'];
-        @endphp
-
         <div class="mt-12">
-            <x-posts-filter filter_name="Categories" :filter_elements="$allCats" class="border-b border-b-primary mb-4 pb-4"/>
+            <x-posts-filter filter_name="Categories" :filter_elements="$categories" class="border-b border-b-primary mb-4 pb-4"/>
             <x-posts-filter filter_name="Tags" :filter_elements="$tags"/>
 
             <div class="flex justify-end mt-4">

@@ -1,14 +1,21 @@
+@php
+    $tagNames = array_map(function ($tag) {
+        return $tag['name'];
+    }, $post->tags->toArray());
+@endphp
+
 <x-guest-layout class="bg-gray-100">
     <div class="prose">
-        <h1 class="mt-4 mb-6">Add new post</h1>
+        <h1 class="mt-4 mb-6">Edit "{{ $post->title }}"</h1>
     </div>
 
-    <form method="POST" action="/posts" enctype="multipart/form-data">
+    <form method="POST" action="/posts/{{ $post->id }}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 
         <!-- Post Image -->
         <div class="mb-3">
-            <img id="post-current-image" src="{{ asset('assets/img/post-placeholder.jpg') }}"
+            <img id="post-current-image" src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/post-placeholder.jpg') }}"
                 alt="post image" class="mb-4 max-h-[200px] w-full object-cover">
 
             <x-input-label for="image" :value="__('Image')" />
@@ -26,7 +33,8 @@
             <select name="category_id" id="category_id" class="select select-bordered w-full font-normal mb-2" required
                 autofocus>
                 @foreach ($categories as $cat)
-                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    <option value="{{ $cat->id }}" {{ $post->category_id == $cat->id ? 'selected' : '' }}>
+                        {{ $cat->name }}</option>
                 @endforeach
             </select>
 
@@ -43,7 +51,8 @@
             @foreach ($tags as $tag)
                 <div class="form-control inline-flex mr-2">
                     <label class="label cursor-pointer inline-flex gap-3">
-                        <input type="checkbox" class="checkbox" value="{{ $tag->name }}" name="tags[]" />
+                        <input type="checkbox" class="checkbox" value="{{ $tag->name }}" name="tags[]"
+                            {{ in_array($tag->name, $tagNames) ? 'checked' : '' }} />
                         <span class="label-text">{{ $tag->name }}</span>
                     </label>
                 </div>
@@ -58,7 +67,7 @@
         <!-- Post title -->
         <div class="mb-3">
             <x-input-label for="title" :value="__('Title')" />
-            <x-text-input id="title" name="title" :value="old('title')" required autofocus />
+            <x-text-input id="title" name="title" :value="$post->title" required autofocus />
 
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
@@ -67,16 +76,16 @@
         <div class="mb-3">
             <x-input-label for="intro_text" :value="__('Intro')" />
             <x-textarea-input name="intro_text" id="intro_text" required autofocus>
-                {{ old('intro_text') }}
+                {{ $post->intro_text }}
             </x-textarea-input>
 
-            <x-input-error :messages="$errors->get('intro')" class="mt-2" />
+            <x-input-error :messages="$errors->get('intro_text')" class="mt-2" />
         </div>
 
         <!-- Post Content -->
         <div>
             <x-input-label for="content" :value="__('Content')" />
-            <x-textarea-input name="content" id="content" autofocus> </x-textarea-input>
+            <x-textarea-input name="content" id="content" autofocus> {{ $post->content }}</x-textarea-input>
 
             <script>
                 tinymce.init({
@@ -90,7 +99,7 @@
         <!-- Submit -->
         <div class="flex justify-end mt-6">
             <x-primary-button class="btn-wide">
-                {{ __('Add post') }}
+                {{ __('Update post') }}
             </x-primary-button>
         </div>
     </form>

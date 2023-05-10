@@ -56,6 +56,13 @@ filters.forEach(filter => {
     filter.setAttribute('href', '/?' + queryParams.toString());
 });
 
-window.addEventListener('click', (e) => {
-    console.log(e.target)
-})
+// Show image preview
+const fileUpload = document.querySelector('.file-show-preview');
+if (fileUpload) {
+    fileUpload.addEventListener('change', (event) => {
+        if (event.target.files.length > 0) {
+            const src = URL.createObjectURL(event.target.files[0]);
+            document.getElementById("post-current-image").src = src;
+        }
+    });
+}

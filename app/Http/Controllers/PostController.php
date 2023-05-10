@@ -69,15 +69,14 @@ class PostController extends Controller {
             "intro_text" => "required",
             "content" => "required",
             "category_id" => "required|exists:categories,id",
-            "image" => File::types(["jpg", "jpeg", "png", "jfif"])->max(5 * 1024),
+            "image" => File::types(["jpg", "jpeg", "png", "jfif"])->max(
+                5 * 1024
+            ),
         ]);
 
         // Store the image and save it's path
         if ($request->image) {
-            $formFields["image"] = $request->image->store(
-                "posts",
-                "public"
-            );
+            $formFields["image"] = $request->image->store("posts", "public");
         }
 
         // Validate the tags
@@ -106,5 +105,73 @@ class PostController extends Controller {
         $post->tags()->sync($tagIds);
 
         return redirect("/")->with("message", "Post added succefully!");
+    }
+
+    // Show edit form
+    public function edit(Post $post) {
+        $tags = Tag::all();
+        $cats = Category::all();
+
+        return view("posts.edit", [
+            "post" => $post,
+            "tags" => $tags,
+            "categories" => $cats,
+        ]);
+    }
+
+    // Update post data
+    public function update(Request $request, Post $post) {
+        // Validate the fields
+        $formFields = $request->validate([
+            "title" => ["required"],
+            "intro_text" => "required",
+            "content" => "required",
+            "category_id" => "required|exists:categories,id",
+            "image" => File::types(["jpg", "jpeg", "png", "jfif"])->max(
+                5 * 1024
+            ),
+        ]);
+
+        // Store the image and save it's path
+        if ($request->image) {
+            $formFields["image"] = $request->image->store("posts", "public");
+        }
+
+        // Validate the tags
+        $request->validate([
+            "tags" => "required",
+        ]);
+
+        // Store the tags
+        $tagIds = [];
+
+        // Retrieve or create a tag
+        foreach ($request->tags as $tagName) {
+            $tag = Tag::firstOrCreate(["name" => trim($tagName)]);
+            $tagIds[] = $tag->id;
+        }
+
+        // Update the post
+        $post->update($formFields);
+
+        // Associate the post with the corresponding category
+        $category = Category::find($formFields["category_id"]);
+        $post->category()->associate($category);
+        $post->save();
+
+        // Add tags to the post
+        $post->tags()->sync($tagIds);
+
+        return back()->with("message", "Post updated succefully!");
+    }
+
+    // Delete post
+    public function destroy(Post $post) {
+        if ($post) {
+            $post->delete();
+            return redirect('/')->with('message', 'Post deleted successfully!');
+        } else {
+            return redirect('/')->with('message', 'Post not found!');
+        }
     }
 }

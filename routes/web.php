@@ -42,6 +42,15 @@ Route::get('/posts/create', [PostController::class, 'create'])->name('posts.crea
 // Store create post data
 Route::post('/posts', [PostController::class, 'store']);
 
+// Show edit post form
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+// Update post
+Route::put('/posts/{post}', [PostController::class, 'update']);
+
+// Delete post
+Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+
 // Single post
 Route::get('/posts/{post}', [PostController::class, 'show']);
 

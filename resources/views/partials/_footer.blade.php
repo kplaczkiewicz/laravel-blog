@@ -23,6 +23,8 @@
     </div>
 </footer>
 
+<x-toast />
+
 </body>
 
 </html>

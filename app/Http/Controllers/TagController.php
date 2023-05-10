@@ -16,6 +16,6 @@ class TagController extends Controller {
 
         Tag::create($formFields);
 
-        return redirect(route("posts.create"));
+        return redirect(route("posts.create"))->with("message", "Tag added succefully!");
     }
 }

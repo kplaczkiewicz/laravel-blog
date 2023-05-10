@@ -4,7 +4,7 @@
 
 <x-app-layout>
     <div class="prose max-w-4xl container pt-14 pb-28">
-        <img src="https://picsum.photos/1000/600" alt="" class="mb-10 max-h-[350px] w-full object-cover">
+        <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/post-placeholder.jpg') }}" alt="post image" class="mb-10 max-h-[350px] w-full object-cover">
 
         <div class="mb-3">
             @foreach ($post->tags as $tag)

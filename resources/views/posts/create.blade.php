@@ -1,12 +1,23 @@
 <x-guest-layout class="bg-gray-100">
-    <form method="POST" action="/posts">
+    <form method="POST" action="/posts" enctype="multipart/form-data">
         @csrf
 
-         <!-- Post Category -->
-         <div class="mb-3">
+        <!-- Post Image -->
+        <div class="mb-3">
+            <x-input-label for="image" :value="__('Image')" />
+
+            <input type="file" accept="image/png, image/jpeg" name="image" id="image"
+                class="file-input file-input-bordered w-full" autofocus>
+
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
+
+        <!-- Post Category -->
+        <div class="mb-3">
             <x-input-label for="category_id" :value="__('Category')" />
 
-            <select name="category_id" id="category_id" class="select select-bordered w-full font-normal mb-2" required autofocus>
+            <select name="category_id" id="category_id" class="select select-bordered w-full font-normal mb-2" required
+                autofocus>
                 @foreach ($categories as $cat)
                     <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                 @endforeach

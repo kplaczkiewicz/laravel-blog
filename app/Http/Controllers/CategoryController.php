@@ -16,6 +16,6 @@ class CategoryController extends Controller {
 
         Category::create($formFields);
 
-        return redirect(route("posts.create"));
+        return redirect(route("posts.create"))->with("message", "Category added succefully!");
     }
 }

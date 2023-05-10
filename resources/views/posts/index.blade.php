@@ -47,5 +47,9 @@
         @else
             <p class="py-8">No posts found</p>
         @endif
+
+        <div class="mt-6">
+            {{ $posts->appends($_GET)->links() }}
+        </div>
     </div>
 </x-app-layout>

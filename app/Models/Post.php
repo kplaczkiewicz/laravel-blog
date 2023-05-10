@@ -10,7 +10,7 @@ class Post extends Model {
 
     protected $fillable = [
         "category_id",
-        "image_url",
+        "image",
         "title",
         "intro_text",
         "content",

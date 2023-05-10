@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class PostController extends Controller {
     // Show all post
@@ -14,16 +15,26 @@ class PostController extends Controller {
         $posts = Post::latest()
             ->filter(request(["tag", "category", "search"]))
             ->with("tags")
-            ->get();
+            ->paginate(9);
 
         // Change eloquent result to array of names
-        $tagNames = array_map(function ($tag) {
-            return $tag["name"];
-        }, Tag::all(["name"])->reverse()->toArray());
+        $tagNames = array_map(
+            function ($tag) {
+                return $tag["name"];
+            },
+            Tag::all(["name"])
+                ->reverse()
+                ->toArray()
+        );
 
-        $catNames = array_map(function ($cat) {
-            return $cat["name"];
-        }, Category::all(["name"])->reverse()->toArray());
+        $catNames = array_map(
+            function ($cat) {
+                return $cat["name"];
+            },
+            Category::all(["name"])
+                ->reverse()
+                ->toArray()
+        );
 
         return view("posts.index", [
             "posts" => $posts,
@@ -46,24 +57,28 @@ class PostController extends Controller {
 
         return view("posts.create", [
             "tags" => $tags,
-            "categories" => $cats
+            "categories" => $cats,
         ]);
     }
 
     // Store post data
     public function store(Request $request) {
-        $request->merge([
-            "image_url" => "img",
-        ]);
-
         // Validate the fields
         $formFields = $request->validate([
             "title" => ["required", Rule::unique("posts", "title")],
             "intro_text" => "required",
             "content" => "required",
             "category_id" => "required|exists:categories,id",
-            "image_url" => "required",
+            "image" => File::types(["jpg", "jpeg", "png", "jfif"])->max(5 * 1024),
         ]);
+
+        // Store the image and save it's path
+        if ($request->image) {
+            $formFields["image"] = $request->image->store(
+                "posts",
+                "public"
+            );
+        }
 
         // Validate the tags
         $request->validate([
@@ -83,13 +98,13 @@ class PostController extends Controller {
         $post = Post::create($formFields);
 
         // Associate the post with the corresponding category
-        $category = Category::find($formFields['category_id']);
+        $category = Category::find($formFields["category_id"]);
         $post->category()->associate($category);
         $post->save();
 
         // Add tags to the post
         $post->tags()->sync($tagIds);
 
-        return redirect("/");
+        return redirect("/")->with("message", "Post added succefully!");
     }
 }

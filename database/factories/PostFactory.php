@@ -21,7 +21,6 @@ class PostFactory extends Factory {
 
         return [
             'category_id' => $category->id,
-            "image_url" => $this->faker->image(),
             "title" => $this->faker->sentence(),
             "intro_text" => $this->faker->paragraphs(1, true),
             "content" => $this->faker->paragraphs(15, true),

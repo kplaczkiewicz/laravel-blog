@@ -2,7 +2,7 @@
 
 <div class="card bg-base-100 shadow rounded-sm">
     <figure>
-        <img src="https://picsum.photos/500/300?random={{ $post->id }}" alt="placeholder">
+        <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/post-placeholder.jpg') }}" alt="post image">
     </figure>
 
     <div class="card-body">

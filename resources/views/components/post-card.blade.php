@@ -12,14 +12,17 @@
             @endforeach
         </div>
 
+        <div class="badge badge-lg mb-2">{{ $post->category->name }}</div>
+
         <h2 class="card-title">{{ $post->title }}</h2>
 
-        <div class="badge badge-lg mb-2">{{ $post->category->name }}</div>
+        <p class="mb-2 flex-grow-0 text-right">- {{ $post->user->name }}</p>
+
 
         <p>{{ Str::limit($post->intro_text, 140) }}</p>
 
         <div class="mt-4 card-actions justify-end">
-            <a class="btn btn-primary" href="/posts/{{ $post->id }}">Read more</a>
+            <a class="btn btn-primary" href="{{ route('posts.show', $post->id) }}">Read more</a>
         </div>
     </div>
 </div>

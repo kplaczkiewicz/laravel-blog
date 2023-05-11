@@ -13,12 +13,9 @@
                         Add a post
                     </a>
                 @else
-                    <a class="btn btn-info" href="{{ route('posts.create') }}">
-                        Add a post
-                    </a>
-                    {{-- <a class="btn btn-info" href="{{ route('login') }}">
+                    <a class="btn btn-info" href="{{ route('login') }}">
                         Join us
-                    </a> --}}
+                    </a>
                 @endauth
             </div>
         </div>
@@ -38,7 +35,6 @@
             </div>
         </div>
         @if (count($posts) > 0)
-
             <div class="grid grid-cols-3 py-12 gap-8">
                 @foreach ($posts as $post)
                     <x-post-card :post="$post" />

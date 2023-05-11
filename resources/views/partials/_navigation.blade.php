@@ -22,7 +22,7 @@
                                 src="https://api.dicebear.com/5.x/initials/svg?seed={{ Auth::user()->name }}}&backgroundColor=000000" />
                         </div>
                     </label>
-                    <ul tabindex="0" class="mt-3 p-2 shadow-lg menu menu-compact dropdown-content bg-gray-100 w-52">
+                    <ul tabindex="0" class="mt-3 p-2 shadow-lg menu menu-compact dropdown-content border border-primary/20 w-52 bg-white">
                         <li>
                             <a href="{{ route('dashboard') }}">
                                 Dashboard

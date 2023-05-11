@@ -79,6 +79,9 @@ class PostController extends Controller {
             $formFields["image"] = $request->image->store("posts", "public");
         }
 
+        // Add user
+        $formFields["user_id"] = auth()->id();
+
         // Validate the tags
         $request->validate([
             "tags" => "required",
@@ -121,6 +124,11 @@ class PostController extends Controller {
 
     // Update post data
     public function update(Request $request, Post $post) {
+        // Check if the user is the owner
+        if ($post->user_id != auth()->id()) {
+            abort("403", "Unauthorized action");
+        }
+
         // Validate the fields
         $formFields = $request->validate([
             "title" => ["required"],
@@ -169,9 +177,9 @@ class PostController extends Controller {
     public function destroy(Post $post) {
         if ($post) {
             $post->delete();
-            return redirect('/')->with('message', 'Post deleted successfully!');
+            return redirect("/dashboard")->with("message", "Post deleted successfully!");
         } else {
-            return redirect('/')->with('message', 'Post not found!');
+            return redirect("/dashboard")->with("message", "Post not found!");
         }
     }
 }

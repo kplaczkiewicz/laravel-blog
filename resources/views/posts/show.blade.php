@@ -7,15 +7,17 @@
         <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/post-placeholder.jpg') }}"
             alt="post image" class="mb-10 max-h-[350px] w-full object-cover">
 
-        <div class="mb-3">
+        <div class="mb-2">
             @foreach ($post->tags as $tag)
                 <div class="badge badge-outline">{{ $tag->name }}</div>
             @endforeach
         </div>
 
-        <h1 class="mb-5">{{ $post->title }}</h1>
+        <div class="badge badge-lg mb-4">{{ $post->category->name }}</div>
 
-        <div class="badge badge-lg">{{ $post->category->name }}</div>
+        <h1 class="mb-3">{{ $post->title }}</h1>
+
+        <p class="mb-5 mt-0 text-right text-xl">- {{ $post->user->name }}</p>
 
         <p class="text-lg mb-8">{{ $post->intro_text }}</p>
 

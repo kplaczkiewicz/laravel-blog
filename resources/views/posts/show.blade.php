@@ -29,15 +29,47 @@
             <a class="btn mt-12" href="/">Back to homepage</a>
         </div>
 
-        <div class="mt-10">
-            <a href="{{ route('posts.edit', $post->id) }}" class="btn">Edit</a>
+        <div class="mt-20">
+            <h2>Comments ({{ $approvedComments }})</h2>
 
-            <form action="/posts/{{$post->id}}" method="post">
+            <form class="mb-16" method="POST" action="/comments">
                 @csrf
-                @method('DELETE')
 
-                <button type="submit" class="btn btn-error mt-4">Delete</button>
+                <!-- Comment -->
+                <div>
+                    <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
+
+                    <x-textarea-input id="content" name="content" required autofocus>
+                        {{ old('content') }}
+                    </x-textarea-input>
+
+                    <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                </div>
+
+                <div class="flex justify-end mt-5">
+                    <x-primary-button class="btn-wide">
+                        {{ __('Add comment') }}
+                    </x-primary-button>
+                </div>
             </form>
+
+            @if ($approvedComments > 0)
+                @foreach ($post->comments as $comment)
+                    @if ($comment->approved)
+                        <div class="flex gap-6 bg-base-200 py-6 px-4 mb-8">
+                            <div class="w-[150px] border-r border-r-primary pr-4">
+                                <img class="mt-0 mb-2 max-w-[75px]"
+                                    src="https://api.dicebear.com/5.x/initials/svg?seed={{ $comment->author }}&backgroundColor=000000" />
+                                <span>{{ $comment->author }}</span>
+                            </div>
+
+                            <div class="flex-1">
+                                {{ $comment->content }}
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
         </div>
     </div>
 </x-app-layout>

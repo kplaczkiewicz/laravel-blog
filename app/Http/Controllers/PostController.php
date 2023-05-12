@@ -47,6 +47,7 @@ class PostController extends Controller {
     public function show(Post $post) {
         return view("posts.show", [
             "post" => $post,
+            "approvedComments" => $post->comments->where('approved', true)->count()
         ]);
     }
 
@@ -181,5 +182,13 @@ class PostController extends Controller {
         } else {
             return redirect("/dashboard")->with("message", "Post not found!");
         }
+    }
+
+    // Show page to manage comments
+    public function manage_comments(Post $post) {
+        return view("posts.manage-comments", [
+            "post" => $post,
+            "comments" => $post->comments()->where('approved', false)->paginate(10)
+        ]);
     }
 }

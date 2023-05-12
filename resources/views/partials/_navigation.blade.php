@@ -16,10 +16,10 @@
 
             @auth
                 <div class="dropdown dropdown-end">
-                    <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                        <div class="w-10 rounded-full">
+                    <label tabindex="0" class="btn btn-ghost btn-square avatar">
+                        <div class="w-10">
                             <img
-                                src="https://api.dicebear.com/5.x/initials/svg?seed={{ Auth::user()->name }}}&backgroundColor=000000" />
+                                src="https://api.dicebear.com/5.x/initials/svg?seed={{ auth()->user()->name }}}&backgroundColor=000000" />
                         </div>
                     </label>
                     <ul tabindex="0" class="mt-3 p-2 shadow-lg menu menu-compact dropdown-content border border-primary/20 w-52 bg-white">
